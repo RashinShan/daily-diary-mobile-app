@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './MyComponent.module.css';
+import styles from '../assets/MyComponent.module.css';
 import { View, Button } from 'react-native-web';
 
 const Packages = () => {
