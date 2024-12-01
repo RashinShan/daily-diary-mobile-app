@@ -1,9 +1,16 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const AboutUsScreen = () => {
   return (
+  
     <ScrollView contentContainerStyle={styles.container}>
+       <View style={styles.container1}>
+       <Header />
+       </View>
+    
       <Text style={styles.header}>Welcome to Diary App</Text>
       <Text style={styles.tagline}>Your Space, Your Story</Text>
 
@@ -73,11 +80,25 @@ const AboutUsScreen = () => {
           </View>
         </View>
       </View>
+      <View style={styles.container1}>
+      <Footer />
+       <Header />
+       </View>
+     
     </ScrollView>
+  
   );
 };
 
+
+
 const styles = StyleSheet.create({
+  container1: {
+    flex: 1, // Takes up full screen
+    backgroundColor: "#ffffff", // White background
+    justifyContent: "center", // Center content vertically
+    alignItems: "center", // Center content horizontally
+  },
   container: {
     flexGrow: 1,
     padding: 20,
