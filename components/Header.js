@@ -19,6 +19,9 @@ const Header = () => {
         <TouchableOpacity onPress={() => router.push('/AboutUs')} style={styles.navItem}>
           <Text style={styles.navText}>About Us</Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('/ContactUsPage')} style={styles.navItem}>
+          <Text style={styles.navText}>ContactUsPage</Text>
+        </TouchableOpacity>
        
       </View>
     </View>
