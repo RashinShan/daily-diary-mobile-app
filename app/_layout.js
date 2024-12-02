@@ -1,6 +1,8 @@
 import React from "react";
 import { Stack } from "expo-router";
-//comment
+
+//chek with this comment janani
+
 const Layout = () => {
   return (
     <Stack>
