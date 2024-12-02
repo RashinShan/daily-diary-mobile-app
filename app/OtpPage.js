@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 const OtpEntryPage = () => {
@@ -13,8 +12,6 @@ const OtpEntryPage = () => {
 
   return (
     <View style={styles.outerContainer}>
-      <Header />
-
       <View style={styles.content}>
         <Text style={styles.title}>Enter OTP</Text>
         <Text style={styles.instructions}>
