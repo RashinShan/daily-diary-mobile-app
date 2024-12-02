@@ -13,7 +13,7 @@ const Header = () => {
 
       {/* Navigation Bar */}
       <View style={styles.navbar}>
-        <TouchableOpacity onPress={() => router.push('/')} style={styles.navItem}>
+        <TouchableOpacity onPress={() => router.push('/HomePage')} style={styles.navItem}>
           <Text style={styles.navText}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.push('/AboutUs')} style={styles.navItem}>
