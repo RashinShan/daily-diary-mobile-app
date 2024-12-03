@@ -1,28 +1,56 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
 
-  const handleLogin = () => {
-    // Implement your login logic here, e.g., API calls or local storage
-    console.log("Logging in with:", username, password);
+  const handleLogin = async () => {
+    setErrorMessage("");
+
+    if (!username || !password) {
+      setErrorMessage("Both username and password are required.");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://127.0.0.1:5000/users/login", {
+        email: username,
+        password: password,
+      });
+
+      console.log("Login successful:", response.data);
+
+      // Save the email in AsyncStorage
+      await AsyncStorage.setItem("userEmail", username);
+
+      setErrorMessage("");
+      router.push("/HomePage");
+    } catch (error) {
+      console.error("Login failed:", error);
+      setErrorMessage("Invalid username or password.");
+    }
   };
 
   return (
     <View style={styles.outerContainer}>
-      {/* Header */}
       <Header />
 
-      {/* Main Content */}
       <View style={styles.content}>
         <Text style={styles.title}>Login</Text>
+
+        {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
+
         <TextInput
           style={styles.input}
-          placeholder="Username"
+          placeholder="Username (Email)"
           onChangeText={setUsername}
           value={username}
         />
@@ -38,7 +66,6 @@ const LoginPage = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Footer */}
       <Footer />
     </View>
   );
@@ -46,13 +73,13 @@ const LoginPage = () => {
 
 const styles = StyleSheet.create({
   outerContainer: {
-    flex: 1, // Takes up the entire screen
+    flex: 1,
     backgroundColor: "#f0f0f0",
-    justifyContent: "space-between", // Evenly distributes Header, Content, and Footer
+    justifyContent: "space-between",
     alignItems: "center",
   },
   content: {
-    width: "90%", // Makes the content take up 90% of the screen width
+    width: "90%",
     alignItems: "center",
     backgroundColor: "#fff",
     padding: 20,
@@ -61,7 +88,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3, // For Android shadow effect
+    elevation: 3,
   },
   title: {
     fontSize: 24,
@@ -88,6 +115,11 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
     textAlign: "center",
+  },
+  error: {
+    color: "red",
+    fontSize: 14,
+    marginBottom: 10,
   },
 });
 

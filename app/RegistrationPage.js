@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { useEffect } from 'react';
-import { TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
@@ -10,75 +8,77 @@ const RegistrationPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [cpassword, setCPassword] = useState('');
+  
+  const [errors, setErrors] = useState({});
+  const [formStatus, setFormStatus] = useState(false);
 
-   //to state the form status and find the error
-    const[errors,setErrors]=useState({});
-    const[formstatus,setFormstatus]=useState(false); //boolean type : the form valid true not valid false
+  useEffect(() => {
+    formValidation();
+  }, [name, email, password, cpassword]);
 
-    //for the fetching facilities
-    useEffect(()=>{
-        formValidation()
-    },[name,email,password])
+  const formValidation = () => {
+    let errorObject = {};
 
-    const formValidation=()=>{
-        let errorobject={
-
-        }
-
-        if(!name){
-            errorobject.name="Name is required"
-        }
-        if(!email){
-            errorobject.email="Email is required"
-        }
-        //check the email in the correct form or not?
-        else if(!/\S+@\S+\.\S+/.test(email)){
-            errorobject.email="Email is invalid"
-        }
-        if(!password){
-            errorobject.password="Password is required"
-        }
-        else if(password.length<6){
-            errorobject.password="Password must be at least 6"
-        }
-        else if(password!==cpassword)
-        {
-            errorobject.cpassword="Password not match"
-        }
-
-        //set 
-
-        setErrors(errorobject);
-        //number of 
-        setFormstatus(Object.keys(errorobject).length===0);
+    if (!name) {
+      errorObject.name = "Name is required";
+    }
+    if (!email) {
+      errorObject.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      errorObject.email = "Email is invalid";
+    }
+    if (!password) {
+      errorObject.password = "Password is required";
+    } else if (password.length < 6) {
+      errorObject.password = "Password must be at least 6 characters";
+    } else if (password !== cpassword) {
+      errorObject.cpassword = "Password does not match";
     }
 
-  //check status of the form
+    setErrors(errorObject);
+    setFormStatus(Object.keys(errorObject).length === 0);
+  };
 
-    const handlingFormsubmission=()=>{
-        if(formstatus)
-        {
-            alert('Form registration is successfully !')
+
+  const handlingFormSubmission = async () => {
+    if (formStatus) {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name, email, password }),
+        });
+
+        const data = await response.json();
+        
+        if (response.ok) {
+          alert('Form registration is successful!');
+        } else {
+          alert(`Registration failed: ${data.message}`);
         }
-        else{
-            alert('Error occurred fix it !')
-        }
+      } catch (error) {
+        alert('Error occurred while sending the data!');
+      }
+    } else {
+      alert('Error occurred, please fix the issues!');
     }
-
+  };
 
   return (
-   
     <View style={styles.container}>
       <Header />
       <Text style={styles.title}>Register</Text>
-      
+
       <TextInput
         style={styles.input}
         placeholder="Enter your name"
         value={name}
         onChangeText={setName}
       />
-      
+      {errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
+
       <TextInput
         style={styles.input}
         placeholder="Enter your email"
@@ -86,7 +86,8 @@ const RegistrationPage = () => {
         onChangeText={setEmail}
         keyboardType="email-address"
       />
-      
+      {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
+
       <TextInput
         style={styles.input}
         placeholder="Enter your password"
@@ -94,23 +95,27 @@ const RegistrationPage = () => {
         onChangeText={setPassword}
         secureTextEntry
       />
+      {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
 
-       <TextInput
+      <TextInput
         style={styles.input}
         placeholder="Confirm password"
         value={cpassword}
         onChangeText={setCPassword}
         secureTextEntry
       />
-    <TouchableOpacity style={[styles.button,{opacity:formstatus ? 1 : 0.5}]} disabled={!formstatus} onPress={{handlingFormsubmission}}>
-     <Text style={styles.buttonText}>
-            Register
-        </Text>
-    </TouchableOpacity>
-    <Footer />
-     
-    </View>
+      {errors.cpassword && <Text style={styles.errorText}>{errors.cpassword}</Text>}
 
+      <TouchableOpacity
+        style={[styles.button, { opacity: formStatus ? 1 : 0.5 }]}
+        disabled={!formStatus}
+        onPress={handlingFormSubmission}
+      >
+        <Text style={styles.buttonText}>Register</Text>
+      </TouchableOpacity>
+
+      <Footer />
+    </View>
   );
 };
 
@@ -120,9 +125,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
     backgroundColor: '#fff',
-    
-    
-
   },
   title: {
     fontSize: 28,
@@ -137,28 +139,26 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 15,
     paddingLeft: 10,
-    backgroundColor:'#9996'
+    backgroundColor: '#f9f9f9',
   },
-
   button: {
     marginTop: 20,
     backgroundColor: '#007bff',
-    padding:15,
+    padding: 15,
     borderRadius: 5,
-    justifyContent:'center',
-    
-    
+    justifyContent: 'center',
   },
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
-    fontSize:18,
-    
-    
+    fontSize: 18,
   },
-
-  
+  errorText: {
+    color: 'red',
+    fontSize: 12,
+    marginBottom: 10,
+  },
 });
 
 export default RegistrationPage;
