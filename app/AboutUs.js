@@ -32,11 +32,15 @@ const AboutUsScreen = () => {
       <Text style={styles.sectionTitle}>What We Offer</Text>
       <Text style={styles.sectionText}>
         - User-Friendly Design: Built with simplicity and elegance using the
-        latest in React Native technology. - Privacy First: Your thoughts are
+        latest in React Native technology. 
+        - Privacy First: Your thoughts are
         yours alone. Our app ensures that your entries are secure and accessible
-        only to you. - Customization: Themes, fonts, and layouts that match your
-        unique style. - Daily Reminders: Gentle nudges to keep you consistent in
-        your journaling habit. - Versatile Features: Attach photos, voice notes,
+        only to you. 
+        - Customization: Themes, fonts, and layouts that match your
+        unique style. 
+        - Daily Reminders: Gentle nudges to keep you consistent in
+        your journaling habit. 
+        - Versatile Features: Attach photos, voice notes,
         and tags to enrich your entries.
       </Text>
 
@@ -45,17 +49,17 @@ const AboutUsScreen = () => {
         <View style={styles.developerList}>
           <View style={styles.developerItem}>
             <Image
-              source={require("../assets/shafkan.jpg")}
+              source={require("../assets/rashin.png")}
               style={styles.developerImage}
             />
             <Text style={styles.developerName}>Rashin Shan</Text>
           </View>
           <View style={styles.developerItem}>
             <Image
-              source={require("../assets/rashin.png")}
+              source={require("../assets/janani.jpg")}
               style={styles.developerImage}
             />
-            <Text style={styles.developerName}>Jananai</Text>
+            <Text style={styles.developerName}>Janani</Text>
           </View>
           <View style={styles.developerItem}>
             <Image
@@ -66,10 +70,10 @@ const AboutUsScreen = () => {
           </View>
           <View style={styles.developerItem}>
             <Image
-              source={require("../assets/shafkan.jpg")}
+              source={require("../assets/dhanu.jpg")}
               style={styles.developerImage}
             />
-            <Text style={styles.developerName}>Danushka</Text>
+            <Text style={styles.developerName}>Dhanuska</Text>
           </View>
           <View style={styles.developerItem}>
             <Image
@@ -82,7 +86,6 @@ const AboutUsScreen = () => {
       </View>
       <View style={styles.container1}>
       <Footer />
-       <Header />
        </View>
      
     </ScrollView>
@@ -96,7 +99,7 @@ const styles = StyleSheet.create({
   container1: {
     flex: 1, // Takes up full screen
     backgroundColor: "#ffffff", // White background
-    justifyContent: "center", // Center content vertically
+    justifyContent: "space-between", // Center content vertically
     alignItems: "center", // Center content horizontally
   },
   container: {
@@ -107,6 +110,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
+    marginTop:60,
     marginBottom: 10,
   },
   tagline: {

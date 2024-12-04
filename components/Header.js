@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { useRouter } from "expo-router";
+import axios from "axios";
 
 const Header = () => {
   const router = useRouter(); // Use router for navigation
   const [screenWidth, setScreenWidth] = useState(Dimensions.get("window").width);
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to toggle hamburger menu
+  const [weather, setWeather] = useState(null); // State to hold weather status
+  const [error, setError] = useState(null); // State to hold error if API call fails
 
   // Update screen width dynamically on orientation change or resize
   useEffect(() => {
@@ -13,6 +16,27 @@ const Header = () => {
 
     const subscription = Dimensions.addEventListener("change", updateScreenWidth);
     return () => subscription.remove(); // Clean up listener
+  }, []);
+
+  // Fetch weather data on component mount
+  useEffect(() => {
+    const fetchWeather = async () => {
+      try {
+        const response = await axios.get('https://api.weatherapi.com/v1/current.json', {
+          params: {
+            key: '678eff098b74491eb9a145131240412',
+            q: 'Colombo',
+          },
+        });
+        setWeather(response.data); // Store the fetched weather data
+        console.log("Fetched Weather Data:", response.data); // Log the fetched weather data
+      } catch (error) {
+        setError("Failed to load weather data."); // Store error message
+        console.error("Error fetching weather data:", error.response?.data || error.message);
+      }
+    };
+  
+    fetchWeather();
   }, []);
 
   // Breakpoints
@@ -26,6 +50,19 @@ const Header = () => {
       <Text style={styles.headerText}>
         Diary <Text style={styles.diaryText}>App</Text>
       </Text>
+
+      {/* Display weather information */}
+      <View>
+        {weather ? (
+          <Text style={styles.weatherText}>
+            {weather.location.name}: {weather.current.temp_c}°C, {weather.current.condition.text}
+          </Text>
+        ) : error ? (
+          <Text style={styles.errorText}>{error}</Text>
+        ) : (
+          <Text style={styles.loadingText}>Loading weather...</Text>
+        )}
+      </View>
 
       {isMobile ? (
         <>
@@ -138,6 +175,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     backgroundColor: "#007bff",
     borderRadius: 5,
+  },
+  weatherText: {
+    fontSize: 14,
+    color: "#007bff",
+    fontWeight: "bold",
+  },
+  errorText: {
+    fontSize: 14,
+    color: "red",
+  },
+  loadingText: {
+    fontSize: 14,
+    color: "gray",
   },
 });
 
