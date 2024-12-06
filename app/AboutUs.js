@@ -82,7 +82,7 @@ const AboutUsScreen = () => {
       </View>
       <View style={styles.container1}>
       <Footer />
-       <Header />
+      
        </View>
      
     </ScrollView>
