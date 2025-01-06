@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
-import Header from "../components/Header";
+
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { useEffect } from 'react';
+import { TouchableOpacity } from 'react-native';
+
+
 import Footer from "../components/Footer";
 
 const RegistrationPage = () => {
@@ -68,7 +72,6 @@ const RegistrationPage = () => {
 
   return (
     <View style={styles.container}>
-      <Header />
       <Text style={styles.title}>Register</Text>
 
       <TextInput

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+
 import { useRouter } from "expo-router";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from "../components/Header";
-import Footer from "../components/Footer";
+
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -41,6 +42,7 @@ const LoginPage = () => {
 
   return (
     <View style={styles.outerContainer}>
+
       <Header />
 
       <View style={styles.content}>
@@ -83,6 +85,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#fff",
     padding: 20,
+    margin:50,
     borderRadius: 10,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
