@@ -51,7 +51,6 @@ const Header = () => {
         Diary <Text style={styles.diaryText}>App</Text>
       </Text>
 
-      {/* Display weather information */}
       <View>
         {weather ? (
           <Text style={styles.weatherText}>
@@ -62,6 +61,7 @@ const Header = () => {
         ) : (
           <Text style={styles.loadingText}>Loading weather...</Text>
         )}
+
       </View>
 
       {isMobile ? (
